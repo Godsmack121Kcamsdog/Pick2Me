@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Pick2Me</string>
+    <string name="api_no_network_connection">No network access!</string>
+
+</resources>
