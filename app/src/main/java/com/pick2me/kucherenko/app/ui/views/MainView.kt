@@ -5,4 +5,5 @@ import com.pick2me.kucherenko.app.api.data.UsersBody
 interface MainView : BaseView {
 
     fun onUsersloaded(list:List<UsersBody>)
+    fun userInfoLoaded(body: UsersBody)
 }

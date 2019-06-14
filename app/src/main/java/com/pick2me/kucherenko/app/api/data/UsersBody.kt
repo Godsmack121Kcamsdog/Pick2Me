@@ -1,23 +1,34 @@
 package com.pick2me.kucherenko.app.api.data
 
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.PrimaryKey
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
+@Entity(tableName = "users")
 data class UsersBody(
 
     @SerializedName("id")
     @Expose
-    var id: Int,
+    val id: Int,
     @SerializedName("email")
     @Expose
-    var email: String,
+    val email: String,
     @SerializedName("first_name")
     @Expose
-    var firstName: String,
+    val firstName: String,
     @SerializedName("last_name")
     @Expose
-    var lastName: String,
+    val lastName: String,
     @SerializedName("avatar")
     @Expose
-    var avatar: String
-)
+    val avatar: String
+) : Serializable {
+    @PrimaryKey(autoGenerate = true)
+    var itemId: Int? = null
+
+    override fun toString(): String {
+        return "User (name='$firstName', surname=$lastName, email='$email', avatar='$avatar')"
+    }
+}

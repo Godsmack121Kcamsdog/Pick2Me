@@ -21,4 +21,5 @@ interface BaseView : MvpView {
         val FALSE: Byte = 0
     }
 
+    fun onError()
 }

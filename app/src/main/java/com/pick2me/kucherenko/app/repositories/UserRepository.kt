@@ -2,8 +2,6 @@ package com.pick2me.kucherenko.app.repositories
 
 import com.pick2me.kucherenko.app.api.data.PickResponse
 import com.pick2me.kucherenko.app.api.data.UserResponse
-import com.pick2me.kucherenko.app.api.data.UsersBody
-import io.reactivex.Flowable
 import io.reactivex.Single
 
 interface UserRepository {

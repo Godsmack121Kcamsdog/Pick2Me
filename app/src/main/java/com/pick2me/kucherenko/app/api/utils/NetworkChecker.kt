@@ -5,7 +5,8 @@ import android.net.ConnectivityManager
 import javax.inject.Inject
 
 @Suppress("DEPRECATION")
-class NetworkChecker @Inject
+class NetworkChecker
+@Inject
 constructor(val context: Context) {
 
     val isConnected: Boolean

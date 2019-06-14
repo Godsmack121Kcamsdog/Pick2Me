@@ -6,8 +6,6 @@ import android.util.Log
 import android.widget.Toast
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.google.gson.Gson
-import com.pick2me.kucherenko.app.db.LocalStorage
-import com.pick2me.kucherenko.app.repositories.UserRepository
 import com.pick2me.kucherenko.app.ui.views.BaseView
 import dagger.android.AndroidInjection
 import dagger.android.DispatchingAndroidInjector
@@ -23,7 +21,7 @@ abstract class BaseActivity : MvpAppCompatActivity(), BaseView, HasSupportFragme
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
 
 //    @Inject
-//    lateinit var mLocalStorage: LocalStorage
+//    lateinit var mLocalStorage: UsersRepository
 
     @Inject
     lateinit var mGson: Gson

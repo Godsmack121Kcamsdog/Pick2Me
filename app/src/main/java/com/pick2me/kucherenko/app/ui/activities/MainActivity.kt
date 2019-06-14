@@ -1,5 +1,6 @@
 package com.pick2me.kucherenko.app.ui.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.NonNull
 import android.support.v7.widget.LinearLayoutManager
@@ -7,6 +8,7 @@ import android.support.v7.widget.RecyclerView
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.pick2me.kucherenko.app.R
 import com.pick2me.kucherenko.app.api.data.UsersBody
+import com.pick2me.kucherenko.app.db.UsersRepository
 import com.pick2me.kucherenko.app.repositories.UserRepository
 import com.pick2me.kucherenko.app.ui.adapters.UsersAdapter
 import com.pick2me.kucherenko.app.ui.presenters.MainPresenter
@@ -22,6 +24,9 @@ class MainActivity : BaseActivity(), MainView, UsersAdapter.UserListener {
     @Inject
     lateinit var repository: UserRepository
 
+    @Inject
+    lateinit var dbRepository: UsersRepository
+
     lateinit var adapter: UsersAdapter
 
     private val VISIBLE_THRESHOLD = 1
@@ -35,22 +40,27 @@ class MainActivity : BaseActivity(), MainView, UsersAdapter.UserListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         presenter.attachRepository(repository)
+        presenter.attachDataBaseRepository(dbRepository)
 
         adapter = UsersAdapter()
         recycler_view.adapter = adapter
 
         adapter.setListener(this)
+
         setUpLoadMoreListener()
+        setUpRefreshListener()
 
         presenter.subscribeForUsersRequest()
     }
 
     override fun onUsersloaded(list: List<UsersBody>) {
+        swiper.isRefreshing = false
         adapter.setData(list.map { user -> UsersAdapter.UserDH(user) }.toMutableList())
     }
 
-    override fun clickUser(id:Long) {
+    override fun clickUser(id: Long) {
         presenter.userInfo(id)
     }
 
@@ -70,4 +80,18 @@ class MainActivity : BaseActivity(), MainView, UsersAdapter.UserListener {
             }
         })
     }
+
+    private fun setUpRefreshListener() {
+        swiper.setOnRefreshListener { presenter.subscribeForUsersRequest() }
+    }
+
+    override fun onError() {
+        if (swiper.isRefreshing) swiper.isRefreshing = false
+    }
+
+    override fun userInfoLoaded(body: UsersBody) {
+        val userIntent = Intent(this, DetailedActivity().javaClass)
+        userIntent.putExtra("user", body)
+    }
+
 }
